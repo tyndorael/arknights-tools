@@ -23,6 +23,7 @@ class _BuildingSkillsScreenState extends State<BuildingSkillsScreen> {
   List<Operator> _operators = [];
   List<Operator> _operatorsFilteredByRoom = [];
   Room _selectedRoom;
+  TextEditingController _textController = TextEditingController();
 
   void firstLoad() async {
     try {
@@ -171,13 +172,43 @@ class _BuildingSkillsScreenState extends State<BuildingSkillsScreen> {
       return;
     }
 
-    _operatorsFilteredByRoom = _operators
-        .where((operator) => operator.buffs
-            .where((buff) =>
-                buff.type == _selectedRoom.id ||
-                buff.category == _selectedRoom.id)
-            .isNotEmpty)
-        .toList();
+    setState(() {
+      _operatorsFilteredByRoom = _operators
+          .where((operator) => operator.buffs
+              .where((buff) =>
+                  buff.type == _selectedRoom.id ||
+                  buff.category == _selectedRoom.id)
+              .isNotEmpty)
+          .toList();
+    });
+  }
+
+  void onOperatorSearchChanged(String value) {
+    if (_selectedRoom == null) {
+      if (value.isEmpty) {
+        setState(() {
+          _operatorsFilteredByRoom = _operators.toList();
+        });
+      } else {
+        setState(() {
+          _operatorsFilteredByRoom = _operators
+              .where((operator) =>
+                  operator.name.toLowerCase().contains(value.toLowerCase()))
+              .toList();
+        });
+      }
+    } else {
+      if (value.isEmpty) {
+        filterOperators();
+      } else {
+        setState(() {
+          _operatorsFilteredByRoom = _operatorsFilteredByRoom
+              .where((operator) =>
+                  operator.name.toLowerCase().contains(value.toLowerCase()))
+              .toList();
+        });
+      }
+    }
   }
 
   Widget showLoading() {
@@ -212,6 +243,33 @@ class _BuildingSkillsScreenState extends State<BuildingSkillsScreen> {
     );
   }
 
+  Widget showNotFound() {
+    return Container(
+      alignment: Alignment.center,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          new IconButton(
+            icon: Icon(
+              Icons.cancel,
+              color: Theme.of(context).primaryColor,
+            ),
+            iconSize: 80.0,
+            onPressed: () {
+              _textController.clear();
+              firstLoad();
+            },
+          ),
+          Text(
+            'Refresh',
+            style: Theme.of(context).textTheme.headline5,
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -224,9 +282,14 @@ class _BuildingSkillsScreenState extends State<BuildingSkillsScreen> {
 
     var dropdownButtons = _rooms.isNotEmpty
         ? Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Text('Server:', style: TextStyle(color: Theme.of(context).primaryColor,),),
+              Text(
+                'Server:',
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
               DropdownButton<Server>(
                 value: _selectedServer,
                 dropdownColor: Theme.of(context).backgroundColor,
@@ -255,7 +318,12 @@ class _BuildingSkillsScreenState extends State<BuildingSkillsScreen> {
                   );
                 }).toList(),
               ),
-              Text('Building:', style: TextStyle(color: Theme.of(context).primaryColor,),),
+              Text(
+                'Building:',
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
               DropdownButton(
                 dropdownColor: Theme.of(context).backgroundColor,
                 iconEnabledColor: Theme.of(context).primaryColor,
@@ -292,6 +360,18 @@ class _BuildingSkillsScreenState extends State<BuildingSkillsScreen> {
           )
         : Container();
 
+    var searchOperatorByName = TextField(
+      controller: _textController,
+      style: TextStyle(color: Theme.of(context).primaryColor),
+      decoration: InputDecoration(
+        hintText: 'Search Operator Here...',
+        hintStyle: TextStyle(color: Theme.of(context).primaryColor),
+        labelStyle: TextStyle(color: Theme.of(context).primaryColor),
+        helperStyle: TextStyle(color: Theme.of(context).primaryColor),
+      ),
+      onChanged: onOperatorSearchChanged,
+    );
+
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -300,6 +380,7 @@ class _BuildingSkillsScreenState extends State<BuildingSkillsScreen> {
           children: <Widget>[
             dropdownButtons,
             roomDescription,
+            searchOperatorByName,
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(top: 10.0),
@@ -316,7 +397,7 @@ class _BuildingSkillsScreenState extends State<BuildingSkillsScreen> {
                               operator: _operatorsFilteredByRoom[index]);
                         },
                       )
-                    : Container(),
+                    : showNotFound(),
               ),
             )
           ],
