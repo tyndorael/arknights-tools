@@ -244,30 +244,7 @@ class _BuildingSkillsScreenState extends State<BuildingSkillsScreen> {
   }
 
   Widget showNotFound() {
-    return Container(
-      alignment: Alignment.center,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          new IconButton(
-            icon: Icon(
-              Icons.cancel,
-              color: Theme.of(context).primaryColor,
-            ),
-            iconSize: 80.0,
-            onPressed: () {
-              _textController.clear();
-              firstLoad();
-            },
-          ),
-          Text(
-            'Refresh',
-            style: Theme.of(context).textTheme.headline5,
-          )
-        ],
-      ),
-    );
+    return Container();
   }
 
   @override
