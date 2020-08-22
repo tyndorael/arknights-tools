@@ -20,7 +20,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     super.initState();
   }
 
-  _launchURL() async {
+  _launchTwitterURL() async {
     const url = 'https://twitter.com/tyndorael';
     if (await canLaunch(url)) {
       await launch(url);
@@ -155,7 +155,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       color: Colors.white,
                     ),
                   ),
-                  onTap: _launchURL,
+                  onTap: _launchTwitterURL,
                 ),
               ),
             ),

@@ -42,7 +42,7 @@ dependencies:
   permission_handler: ^5.0.0+hotfix.6
 
   # A plugin for iOS and Android for picking images from the image library, and taking new pictures with the camera.
-  image_picker: ^0.6.6+4
+  image_picker: ^0.6.7+6
 
   # Provides an API for querying information about an application package
   package_info: ^0.4.0+17
