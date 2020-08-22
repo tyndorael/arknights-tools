@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.1.0+6
+version: 1.1.1+7
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -34,7 +34,7 @@ dependencies:
 
   # A collection of animated loading indicators for flutter
   flutter_spinkit: ^4.1.2+1
-  
+
   # Implement a beautiful and dynamic Material Design Speed Dial, with labels, animated icons and hide on scrolling
   flutter_speed_dial: ^1.2.5
 
@@ -42,8 +42,8 @@ dependencies:
   permission_handler: ^5.0.0+hotfix.6
 
   # A plugin for iOS and Android for picking images from the image library, and taking new pictures with the camera.
-  image_picker: ^0.6.6+4
-  
+  image_picker: ^0.6.7+6
+
   # Provides an API for querying information about an application package
   package_info: ^0.4.0+17
 
@@ -57,6 +57,12 @@ dependencies:
 
   # Parse text and extract parts using predefined types like url, phone and email and also supports Regex
   flutter_parsed_text: ^1.2.4
+
+  # A plugin for launching a URL in the mobile platform. Supports iOS and Android.
+  url_launcher: ^5.5.0
+
+  # Flutter package for Eva Icons. Eva Icons is a pack of more than 480 beautifully crafted Open Source icons for common actions and items.
+  eva_icons_flutter: ^2.0.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -74,13 +80,11 @@ flutter_icons:
   adaptive_icon_background: "#191919"
   adaptive_icon_foreground: "assets/icons/appicon.png"
 
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -93,13 +97,10 @@ flutter:
   assets:
     - assets/avatars/
     - assets/example/
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a

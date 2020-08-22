@@ -62,8 +62,32 @@ class _RecruitmentAutomaticScreenState
 
       File temStore;
       if (storagePermissionStatus.isGranted) {
-        final pickedFile = await picker.getImage(source: ImageSource.gallery);
-        temStore = File(pickedFile.path);
+        PickedFile pickedFile =
+            await picker.getImage(source: ImageSource.gallery);
+        if (pickedFile != null) {
+          temStore = File(pickedFile.path);
+        } else {
+          AnalyticsUtils.logEvent(
+            name: Tags.AUTOMATIC_RECRUITMENT_PICK_SCREENSHOT_ERROR,
+            data: <String, dynamic>{
+              'error': 'error image path null',
+            },
+          );
+          setState(() {
+            isLoading = false;
+          });
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) => CustomDialog(
+              title: 'Error',
+              description:
+                  'Something bad happens when i tried to select a screenshot. You can use the manual recruitment if you want. 😢',
+              icon: Icons.error,
+              iconBackground: Colors.redAccent,
+            ),
+          );
+        }
       } else {
         AnalyticsUtils.logEvent(
           name: Tags.AUTOMATIC_RECRUITMENT_PICK_SCREENSHOT_ERROR,
